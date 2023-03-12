@@ -1,0 +1,63 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+
+@using CASS_Portal.Models;
+@model IEnumerable<ShipperShipmentDetail>;
+
+
+<!DOCTYPE html>
+<html>
+<head> 
+</head>
+<body>
+    <h4>Shipment Detail</h4>
+    <hr />
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <th width="200px">SHIPPER NAME</th>
+            <th width ="200px">SHIPMENT ID</th>
+            <th width="200px">CARRIER NAME</th>
+            <th width="200px">SHIPMENT DESCRIPTION</th>
+            <th width="200px">SHIPMENT WEIGHT</th>
+            <th width="200px">SHIPMENT RATE DESCRIPTION</th>
+        </tr>
+        @if (Model != null) 
+        { 
+        @foreach (ShipperShipmentDetail shipment in Model)
+        {
+                <tr>
+                    <td>
+                    @shipment.shipper_name
+                    </td>
+                    <td>
+                    @shipment.shipment_id
+                    </td>
+                    <td>
+                    @shipment.carrier_name
+                    </td>
+                    <td>
+                    @shipment.shipment_description
+                    </td>
+                    <td>
+                    @shipment.shipment_weight
+                    </td>
+                    <td>
+                    @shipment.shipment_rate_description
+                    </td>
+                </tr>
+
+        } 
+        }
+
+
+    </table>
+    <a class="btn btn-secondary" href="@Url.Action("ShowShipper","Home")"> Back to Shipper </a>
+</body>
+</html>
+
+

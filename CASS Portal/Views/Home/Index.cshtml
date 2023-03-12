@@ -1,0 +1,19 @@
+﻿@using CASS_Portal.Models;
+@model Quoteable;
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+ 
+<a class="btn btn-primary" href="@Url.Action("Index","Home")">Random Quote</a>
+<div>
+    @if (Model != null)
+    {
+        <h3>@Model.content <span style="font-size:large">"@Model.author"</span></h3>
+    }
+    else
+    {
+     <h3>HEHE try again! </h3>
+    }
+    
+</div>
