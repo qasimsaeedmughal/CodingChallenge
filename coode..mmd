@@ -1,44 +1,17 @@
 %%{init: {"theme":"base", "themeVariables": { "fontSize":"12px"}}}%%
-graph TB
-    %% Actors - Using actual UML actor symbol
-    Caller[["👤 Caller<br/>(Customer/Student)<br/>Primary Actor"]]
-    
-    %% System Boundary
-    subgraph VAVA["🎯 VAVA System"]
-        direction TB
-        
-        %% Main Use Case
-        UC1(("UC1<br/>Make Phone Call<br/>───────<br/>• Dial VAVA number<br/>• Establish connection<br/>• Receive greeting"))
-        
-        %% Sub-processes
-        Process1["📞 Call Routing<br/>• Receive from Twilio<br/>• Validate number<br/>• Create session"]
-        Process2["🔗 WebSocket Setup<br/>• Establish connection<br/>• Initialize audio stream<br/>• Configure Deepgram"]
-        Process3["🎙️ Play Greeting<br/>• Load welcome message<br/>• Convert to audio<br/>• Stream to caller"]
-        
-        %% Flow
-        UC1 --> Process1
-        Process1 --> Process2
-        Process2 --> Process3
-    end
-    
-    %% External System
-    Twilio{{"📞 Twilio<br/>Telephony<br/>Gateway"}}
-    
-    %% Connections
-    Caller -.->|initiates| UC1
-    Process1 -.->|receives from| Twilio
-    UC1 -.->|enables| UC2Next["→ UC2: Have AI<br/>Conversation"]
-    
-    %% Styling
-    classDef actorStyle fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff,font-weight:bold
-    classDef usecaseStyle fill:#2196F3,stroke:#0D47A1,stroke-width:3px,color:#fff,font-weight:bold
-    classDef processStyle fill:#FFF9C4,stroke:#F57F17,stroke-width:2px,color:#000
-    classDef externalStyle fill:#FF9800,stroke:#E65100,stroke-width:3px,color:#fff,font-weight:bold
-    classDef systemStyle fill:#E8F5E9,stroke:#2E7D32,stroke-width:3px
-    classDef nextStyle fill:#E0E0E0,stroke:#616161,stroke-width:2px,color:#000,stroke-dasharray: 5 5
-    
-    class Caller actorStyle
-    class UC1 usecaseStyle
-    class Process1,Process2,Process3 processStyle
-    class Twilio externalStyle
-    class UC2Next nextStyle
+usecaseDiagram
+    actor Caller as "👤 Caller\n(Customer/Student)\nPrimary Actor"
+    actor Twilio as "📞 Twilio\nTelephony Gateway"
+
+    rectangle "🎯 VAVA System" {
+        usecase UC1 as "UC1\nMake Phone Call"
+        usecase UC1a as "Call Routing"
+        usecase UC1b as "WebSocket Setup"
+        usecase UC1c as "Play Greeting"
+    }
+
+    Caller --> UC1
+    UC1 .> UC1a : «include»
+    UC1 .> UC1b : «include»
+    UC1 .> UC1c : «include»
+    Twilio --> UC1a
