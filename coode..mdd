@@ -1,0 +1,29 @@
+flowchart TB
+    %% Actor
+    Caller[["Caller<br/>(Customer/Student)<br/>Primary Actor"]]
+    
+    %% System Boundary
+    subgraph VAVA["VAVA System"]
+        direction TB
+        
+        %% Main Use Case
+        UC1(("UC1<br/>Make Phone Call<br/>───────<br/>• Dial VAVA number<br/>• Establish connection<br/>• Receive greeting"))
+        
+        %% Sub-processes
+        Process1["Call Routing<br/>• Receive from Twilio<br/>• Validate number<br/>• Create session"]
+        Process2["WebSocket Setup<br/>• Establish connection<br/>• Initialize audio stream<br/>• Configure Deepgram"]
+        Process3["Play Greeting<br/>• Load welcome message<br/>• Convert to audio<br/>• Stream to caller"]
+        
+        %% Flow
+        UC1 --> Process1
+        Process1 --> Process2
+        Process2 --> Process3
+    end
+    
+    %% External System
+    Twilio{{"Twilio<br/>Telephony<br/>Gateway"}}
+    
+    %% Connections
+    Caller -.->|initiates| UC1
+    Process1 -.->|receives from| Twilio
+    UC1 -.->|enables| UC2Next["→ UC2: Have AI<br/>Conversation"]
